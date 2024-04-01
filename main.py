@@ -50,5 +50,5 @@ for char in code:
   elif char == "]":
     bfCode.addWord("111", "CLOSE")
 
-bfCode.printAsBin()
-bfCode.printAsReadable()
+for word in bfCode:
+  print(word)
