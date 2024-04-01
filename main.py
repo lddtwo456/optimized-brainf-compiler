@@ -30,6 +30,17 @@ class bin:
   def addWord(self, word, readable):
     self.words.append([getInt(word), readable, len(word)])
 
+class stack:
+  def __init__(self):
+    self.queue = []
+  
+  def push(self, val):
+    self.queue.append(val)
+  def pull(self):
+    n = self.queue[len(self.queue)-1]
+    self.queue.remove(len(self.queue)-1)
+    return n
+
 code = input("code: ")
 
 # get binary of code, like ingame
@@ -50,5 +61,20 @@ for char in code:
   elif char == "]":
     bfCode.addWord("111", "CLOSE")
 
+# COMPILATION
+
+# for cell argument of instruction
+cell = 0
+
+# for brackets
+brackets = stack()
+
+# for add/sub calls
+n = 0
+add = True
+
+cells = []
+
 for word in bfCode:
-  print(word)
+  if word[1] == "OUT":
+    code.append(bin())

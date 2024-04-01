@@ -1,0 +1,59 @@
+instruction  cell  number/bracket_key
+    000      000         00000
+
+000 000 00000
+
+for char in brainfuck_code:
+  // run this process every cycle if it isn't + or - (could optimize)
+  if (char != "+" or char != "-"):
+    // can be done with an open permantly subtracting CCA with a pulsed read
+    n = adds - subs
+
+    if n != 0:
+      // the resulting n will be in 2s compliment, so you can just ignore the cout bit and add the first 5 bits no matter if the result was negative or positive (2s compliment is cool)
+      addToCode(add, selected_cell, n)
+
+    adds = 0
+    subs = 0
+
+
+
+  // could either be done with a Count Updown Module or a bidirectional shift register
+  if char == ">":
+    selected_cell += 1
+  if char == "<":
+    selected_cell -= 1
+
+
+
+  if char == "+":
+    adds += 1
+  if char == "-":
+    subs += 1
+
+
+
+  if char == "[":
+    // 13 wide stack
+    addToBracketStack(bracket_key, line#)
+    addToCode(jump_if_zero, cell, bracket_key)
+
+    bracket_key += 1
+  if char == "]":
+    matching_open = pullFromBracketStack()
+
+    // 5 bit dictionary of open brackets and their reference, referenced by closed bracket's bracket_key 
+                       key           value
+    addToOpenDict(bracket_key, matching_open[1])
+    addToCode(jump_if_not_zero, cell, bracket_key)
+
+    // 5 bit dictionary of closed brackets and they're reference, referenced by open bracket's bracket_key (this predefinding of bracket_key is used to prevent going back and filling gaps)
+                       key          value
+    addToOpenDict(matching_open[0], line#)
+
+    bracket_key += 1
+
+  
+
+  if char == ".":
+    addToCode(out, cell, 00000)
