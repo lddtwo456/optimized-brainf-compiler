@@ -3,6 +3,8 @@ instruction  cell  number/bracket_key
 
 000 000 00000
 
+// COMPILATION
+
 for char in brainfuck_code:
   // run this process every cycle if it isn't + or - (could optimize)
   if (char != "+" or char != "-"):
@@ -53,24 +55,28 @@ for char in brainfuck_code:
 
     bracket_key += 1
 
-  
-
   if char == ".":
-    addToCode(out, cell, 00000)
+    addToCode(OUT, cell, 00000)
+
+  // won't happen in sim but will in mc
+  if char == " ":
+    addToCode(END, 000, 00000)
+
+// RUN
 
 for instruction in code:
   typ cel n/key
   000 000 00000
 
   // change cell decoder line to all components to cel
+    cell += n
+
+  // 010 
   cell = cells[cel]
 
   // 001
   if type == ADD:
     // route n to cells CCA and write
-    cell += n
-
-  // 010
   if type == JMPIF0:
     // just a big NOR on cell value
     if cell == 0:
