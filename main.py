@@ -1,7 +1,7 @@
 import sys
 
 def getBin(num, length):
-  return format(num, '0{}b'.format(length))
+  return format(num, '0{}b'.format(int(length)))
 
 def getInt(bin):
   return int(bin, 2)
@@ -28,7 +28,7 @@ class bin:
     print("")
 
   def addWord(self, word, readable):
-    self.words.append([word, readable, len(word)])
+    self.words.append([getInt(word), readable, len(word)])
 
 code = input("code: ")
 
@@ -50,7 +50,5 @@ for char in code:
   elif char == "]":
     bfCode.addWord("111", "CLOSE")
 
-binary = bin(["000", "01011"], ["black", "yellow"])
-
-binary.printAsBin()
-binary.printAsReadable()
+bfCode.printAsBin()
+bfCode.printAsReadable()
