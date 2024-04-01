@@ -11,7 +11,7 @@ for char in brainfuck_code:
 
     if n != 0:
       // the resulting n will be in 2s compliment, so you can just ignore the cout bit and add the first 5 bits no matter if the result was negative or positive (2s compliment is cool)
-      addToCode(add, selected_cell, n)
+      addToCode(ADD, selected_cell, n)
 
     adds = 0
     subs = 0
@@ -36,7 +36,7 @@ for char in brainfuck_code:
   if char == "[":
     // 13 wide stack
     addToBracketStack(bracket_key, line#)
-    addToCode(jump_if_zero, cell, bracket_key)
+    addToCode(JMPIF0, cell, bracket_key)
 
     bracket_key += 1
   if char == "]":
@@ -45,7 +45,7 @@ for char in brainfuck_code:
     // 5 bit dictionary of open brackets and their reference, referenced by closed bracket's bracket_key 
                        key           value
     addToOpenDict(bracket_key, matching_open[1])
-    addToCode(jump_if_not_zero, cell, bracket_key)
+    addToCode(JMPIF!0, cell, bracket_key)
 
     // 5 bit dictionary of closed brackets and they're reference, referenced by open bracket's bracket_key (this predefinding of bracket_key is used to prevent going back and filling gaps)
                        key          value
@@ -57,3 +57,38 @@ for char in brainfuck_code:
 
   if char == ".":
     addToCode(out, cell, 00000)
+
+for instruction in code:
+  typ cel n/key
+  000 000 00000
+
+  // change cell decoder line to all components to cel
+  cell = cells[cel]
+
+  // 001
+  if type == ADD:
+    // route n to cells CCA and write
+    cell += n
+
+  // 010
+  if type == JMPIF0:
+    // just a big NOR on cell value
+    if cell == 0:
+      // jump to corresponding close bracket using the predefined key
+      setProgramCounter(getCloseValueAt(key))
+  
+  // 011
+  if type == JMPIF!0:
+    // just a big OR on cell value
+    if cell != 0:
+      //jump to corresponding close bracket using key
+      setProgramCounter(getOpenValueAt(key))
+
+  // 100
+  if type == OUT:
+    // put cell value into custom downsized ascii encoder and draw corresponding character to screen
+    type(bin2char(cell))
+
+  // 000
+  if type == END:
+    stop()
